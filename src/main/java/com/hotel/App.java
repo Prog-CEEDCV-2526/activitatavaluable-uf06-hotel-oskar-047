@@ -323,7 +323,15 @@ public class App {
      * Mostra la disponibilitat actual de les habitacions (lliures i ocupades).
      */
     public static void consultarDisponibilitat() {
-        // TODO: Mostrar lliures i ocupades
+        System.out.println("\nTipus\t\tLliures\tOcupades");
+    	mostrarDisponibilitatTipus(TIPUS_ESTANDARD);
+        mostrarDisponibilitatTipus(TIPUS_SUITE);
+        mostrarDisponibilitatTipus(TIPUS_DELUXE);
+
+		// Aquest primer nextLine es per a "consumir" el enter que estaba pendent del anterior nextInt()
+		sc.nextLine();
+		System.out.println("\nPres Enter per continuar");
+		sc.nextLine();
     }
 
     /**
