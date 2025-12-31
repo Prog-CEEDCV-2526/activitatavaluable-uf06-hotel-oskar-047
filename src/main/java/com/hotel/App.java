@@ -126,6 +126,11 @@ public class App {
 			case 5:
 				obtindreReserva();
 				break;
+			case 6:
+				break;
+			default:
+				System.out.println("Opció no vàlida.");
+				break;
 		}
     }
 
@@ -216,6 +221,14 @@ public class App {
 		boolean continuar = true;
 
 		while(continuar){
+			System.out.print("Vols afegir un servei? (s/n): ");
+			String resposta = sc.next();
+
+			// Si l’entrada de l’usuari no és "s" o "S", s’ix del while
+			if (!resposta.equalsIgnoreCase("s")) {
+				break; 
+			}
+
 			System.out.println("\n0. Finalitzar");
             System.out.println("1. Esmorzar");
             System.out.println("2. Gimnàs");
@@ -247,13 +260,7 @@ public class App {
 				// Si el servei seleccionat ha sigut afegit aband
 				System.out.println("\nEl servei " + servei + " Ja ha sigut seleccionat");
 			}
-
-			// Pregunta si es vol afegir un altre servei
-			System.out.println("\nVols afegir un altre servei? (s/n): ");
-			// Si el text de l'usuari es "s" o "S", continuar valdrá "true".
-            continuar = sc.next().equalsIgnoreCase("s");
 		}
-
         return serveis;
     }
 
