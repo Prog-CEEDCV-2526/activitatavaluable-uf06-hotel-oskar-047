@@ -161,7 +161,7 @@ public class App {
 			informacioReserva.add(servei);
 		}
         
-		// S'afegeix la reserva y es descompta el nombre d'habitacions lliures
+		// S'afegeix la reserva i es descompta el nombre d'habitacions lliures
 		reserves.put(codi, informacioReserva);
 		disponibilitatHabitacions.put(tipus, disponibilitatHabitacions.get(tipus)-1);
 
@@ -245,7 +245,7 @@ public class App {
 				System.out.println("\nEl servei " + servei + " ha sigut afegit");
 			} else {
 				// Si el servei seleccionat ha sigut afegit aband
-				System.out.println("\nEl servei " + servei + " ya ha sigut seleccionat");
+				System.out.println("\nEl servei " + servei + " Ja ha sigut seleccionat");
 			}
 
 			// Pregunta si es vol afegir un altre servei
@@ -328,7 +328,24 @@ public class App {
      * associades a un tipus d'habitació.
      */
     public static void llistarReservesPerTipus(int[] codis, String tipus) {
-         // TODO: Implementar recursivitat
+        if (codis.length == 0){ 
+			return; // Cas base
+		}
+
+        int codi = codis[0];
+		// Es comproba si el codi esta existeix en les reserves i si el seu tipus es igual que el tipus solicitat per l'usuari
+        if (reserves.containsKey(codi) && reserves.get(codi).get(0).equals(tipus)) {
+            mostrarDadesReserva(codi);
+        }
+
+		// S'elimina la primera entrada del array
+		int[] newCodis = new int[codis.length - 1];
+
+		for (int i = 1; i < codis.length; i++) {
+			newCodis[i - 1] = codis[i];
+		}
+
+		llistarReservesPerTipus(newCodis, tipus);
     }
 
     /**
@@ -350,7 +367,24 @@ public class App {
      */
     public static void obtindreReservaPerTipus() {
         System.out.println("\n===== CONSULTAR RESERVES PER TIPUS =====");
-        // TODO: Llistar reserves per tipus
+
+		System.out.println("1. Estàndar");
+		System.out.println("2. Suite");
+		System.out.println("3. Deluxe");
+
+        String tipus = seleccionarTipusHabitacio();
+
+		// Es crea un array amb la mateixa mida que el nombre de reserves
+		int[] codis = new int[reserves.size()];
+		int index = 0;
+
+		// S’itera sobre les reserves i es guarda el codi
+		for (Integer codi : reserves.keySet()) {
+			codis[index] = codi;
+			index++;
+		}
+
+		llistarReservesPerTipus(codis, tipus);
     }
 
     /**
