@@ -303,12 +303,6 @@ public class App {
 		// Es mostren les dades de la reserva
 		System.out.println("\n===== INFORMACIÓ DE LA RESERVA =====");
 		mostrarDadesReserva(codi);
-
-		System.out.println("Vols alliberar aquesta habitació? (s/n): ");
-		boolean eleccio = sc.next().equalsIgnoreCase("s");
-
-		// Si l'eleccio es "false" es cancela la operació
-		if(eleccio == false) return;
         
 		String tipus = reserves.get(codi).get(0);
         
@@ -327,11 +321,6 @@ public class App {
     	mostrarDisponibilitatTipus(TIPUS_ESTANDARD);
         mostrarDisponibilitatTipus(TIPUS_SUITE);
         mostrarDisponibilitatTipus(TIPUS_DELUXE);
-
-		// Aquest primer nextLine es per a "consumir" el enter que estaba pendent del anterior nextInt()
-		sc.nextLine();
-		System.out.println("\nPres Enter per continuar");
-		sc.nextLine();
     }
 
     /**
@@ -347,8 +336,12 @@ public class App {
      */
     public static void obtindreReserva() {
         System.out.println("\n===== CONSULTAR RESERVA =====");
-        // TODO: Mostrar dades d'una reserva concreta
- 
+        int codi = llegirEnter("Introdueix el codi de reserva: ");
+        if (!reserves.containsKey(codi)) {
+            System.out.println("No s'ha trobat cap reserva.");
+            return;
+        }
+        mostrarDadesReserva(codi);
     }
 
     /**
@@ -367,7 +360,7 @@ public class App {
         ArrayList<String> informacio = reserves.get(codi);
         System.out.println("Codi: " + codi);
         System.out.println("- Tipus: " + informacio.get(0));
-        System.out.println("- Cost total: " + informacio.get(1) + "€");
+        System.out.println("- Cost total amb IVA: " + informacio.get(1) + "€");
         System.out.println("- Serveis:");
 		// Si no hi han serveis
         if (informacio.size() == 2){
