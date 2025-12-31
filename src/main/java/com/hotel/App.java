@@ -250,6 +250,7 @@ public class App {
 
 			// Pregunta si es vol afegir un altre servei
 			System.out.println("\nVols afegir un altre servei? (s/n): ");
+			// Si el text de l'usuari es "s" o "S", continuar valdrá "true".
             continuar = sc.next().equalsIgnoreCase("s");
 		}
 
@@ -291,7 +292,31 @@ public class App {
      */
     public static void alliberarHabitacio() {
         System.out.println("\n===== ALLIBERAR HABITACIÓ =====");
-         // TODO: Demanar codi, tornar habitació i eliminar reserva
+        
+		int codi = llegirEnter("Introdueix el codi de reserva: ");
+        
+		if (!reserves.containsKey(codi)) {
+            System.out.println("No s'ha trobat cap reserva.");
+            return;
+        }
+
+		// Es mostren les dades de la reserva
+		System.out.println("\n===== INFORMACIÓ DE LA RESERVA =====");
+		mostrarDadesReserva(codi);
+
+		System.out.println("Vols alliberar aquesta habitació? (s/n): ");
+		boolean eleccio = sc.next().equalsIgnoreCase("s");
+
+		// Si l'eleccio es "false" es cancela la operació
+		if(eleccio == false) return;
+        
+		String tipus = reserves.get(codi).get(0);
+        
+		// S'elimina la reserva 
+		reserves.remove(codi);
+        disponibilitatHabitacions.put(tipus, disponibilitatHabitacions.get(tipus) + 1);
+        
+		System.out.println("Habitació alliberada correctament.");
     }
 
     /**
@@ -331,7 +356,19 @@ public class App {
      * Consulta i mostra en detall la informació d'una reserva.
      */
     public static void mostrarDadesReserva(int codi) {
-       // TODO: Imprimir tota la informació d'una reserva
+        ArrayList<String> informacio = reserves.get(codi);
+        System.out.println("Codi: " + codi);
+        System.out.println("- Tipus: " + informacio.get(0));
+        System.out.println("- Cost total: " + informacio.get(1) + "€");
+        System.out.println("- Serveis:");
+		// Si no hi han serveis
+        if (informacio.size() == 2){
+			System.out.println("  (cap)");
+			return;
+		}
+        for (int i = 2; i < informacio.size(); i++){
+			System.out.println("  * " + informacio.get(i));
+		}
     }
 
     // --------- MÈTODES AUXILIARS (PER MILLORAR LEGIBILITAT) ---------
